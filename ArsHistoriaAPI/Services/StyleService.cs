@@ -47,7 +47,6 @@ namespace ArsHistoriaAPI.Services
 
             if (dbStyle != null)
             {
-                dbStyle.Id = style.Id;
                 dbStyle.Name = style.Name;
                 dbStyle.Period = style.Period;
 

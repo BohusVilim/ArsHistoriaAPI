@@ -56,7 +56,6 @@ namespace ArsHistoriaAPI.Services
 
             if (dbArticle != null)
             {
-                dbArticle.Id = aricle.Id;
                 dbArticle.Title = aricle.Title;
                 dbArticle.Subtitle = aricle.Subtitle;
                 dbArticle.Content = aricle.Content;
@@ -69,6 +68,12 @@ namespace ArsHistoriaAPI.Services
             {
                 return null;
             }
+        }
+
+        public void DeleteArticle(Article article)
+        {
+            _context.Articles.Remove(article);
+            _context.SaveChanges();
         }
     }
 }

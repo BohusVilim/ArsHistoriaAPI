@@ -10,5 +10,6 @@ namespace ArsHistoriaAPI.Services.Interfaces
         Article? GetArticleByTitle(string title);
         Article CreateArticle(Article article);
         Article? UpdateArticle(Article aricle);
+        void DeleteArticle(Article article);
     }
 }

@@ -106,7 +106,7 @@ namespace ArsHistoriaAPI.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         public IActionResult UpdateArticle([FromBody] Article article)
         {
             try
@@ -132,6 +132,27 @@ namespace ArsHistoriaAPI.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error updating article.");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteArticle(int id)
+        {
+            try
+            {
+                var article = _service.GetArticleById(id);
+                if (article == null)
+                {
+                    return NotFound($"Article not found.");
+                }
+
+                _service.DeleteArticle(article);
+                return Ok(new { message = $"Article {article.Title} was successfully deleted." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting Article");
                 return StatusCode(500, "Internal server error");
             }
         }

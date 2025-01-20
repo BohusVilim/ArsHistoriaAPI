@@ -116,7 +116,7 @@ namespace ArsHistoriaAPI.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         public IActionResult UpdateStyle([FromBody] Style style)
         {
             try
