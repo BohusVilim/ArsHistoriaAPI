@@ -1,6 +1,7 @@
 using ArsHistoriaAPI.Models;
 using ArsHistoriaAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArsHistoriaAPI.Controllers
 {
@@ -98,6 +99,16 @@ namespace ArsHistoriaAPI.Controllers
 
                 return CreatedAtAction(nameof(_service.GetStyleById), new { id = createdStyle.Id }, createdStyle);
             }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogWarning(ex, "Invalid operation while creating style.");
+                return Conflict(ex.Message);
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, "Database update error while creating style.");
+                return StatusCode(500, "A database error occurred while creating the style.");
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error creating style.");
@@ -122,6 +133,11 @@ namespace ArsHistoriaAPI.Controllers
                 }
 
                 return Ok(updatedStyle);
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, "Database update error while updating style.");
+                return StatusCode(500, "A database error occurred while updating the style.");
             }
             catch (Exception ex)
             {

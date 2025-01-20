@@ -49,5 +49,26 @@ namespace ArsHistoriaAPI.Services
 
             return article;
         }
+
+        public Article? UpdateArticle(Article aricle)
+        {
+            var dbArticle = _context.Articles.FirstOrDefault(a => a.Id == aricle.Id);
+
+            if (dbArticle != null)
+            {
+                dbArticle.Id = aricle.Id;
+                dbArticle.Title = aricle.Title;
+                dbArticle.Subtitle = aricle.Subtitle;
+                dbArticle.Content = aricle.Content;
+
+                _context.SaveChanges();
+
+                return dbArticle;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

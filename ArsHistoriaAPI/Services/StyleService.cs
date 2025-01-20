@@ -36,56 +36,35 @@ namespace ArsHistoriaAPI.Services
                 throw new InvalidOperationException($"A style with the name '{style.Name}' already exists.");
             }
 
-            try
-            {
-                _context.Styles.Add(style);
-                _context.SaveChanges();
-                return style;
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException("An error occurred while creating the style.", ex);
-            }
+            _context.Styles.Add(style);
+            _context.SaveChanges();
+            return style;
         }
 
         public Style? UpdateStyle(Style style) 
         {
-            try
+            var dbStyle = _context.Styles.FirstOrDefault(a => a.Id == style.Id);
+
+            if (dbStyle != null)
             {
-                var dbStyle = _context.Styles.FirstOrDefault(a => a.Id == style.Id);
+                dbStyle.Id = style.Id;
+                dbStyle.Name = style.Name;
+                dbStyle.Period = style.Period;
 
-                if (dbStyle != null)
-                {
-                    dbStyle.Id = style.Id;
-                    dbStyle.Name = style.Name;
-                    dbStyle.Period = style.Period;
+                _context.SaveChanges();
 
-                    _context.SaveChanges();
-
-                    return dbStyle;
-                }
-                else
-                {
-                    return null;
-                }
+                return dbStyle;
             }
-            catch (Exception ex)
+            else
             {
-                throw new InvalidOperationException("An error occurred while updating the style.", ex);
+                return null;
             }
         }
 
         public void DeleteStyle(Style style)
         {
-            try
-            {
-                _context.Styles.Remove(style);
-                _context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException("An error occurred while deleting the style.", ex);
-            }
+            _context.Styles.Remove(style);
+            _context.SaveChanges();
         }
     }
 }
